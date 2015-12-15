@@ -1,2 +1,4 @@
-
-enter zuerst
+content;fontSize;yOffset;xOffset;
+Leben in einer überwachten Stadt4;30;0;0;
+Eine Präsentation von Elias Lerch;20;100;0;
+FB VI, Master Medieninformatik;15;200;0;

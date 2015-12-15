@@ -13,7 +13,7 @@ class OpenCVPresenter:
         self.data = []
         self.minArea = 600
         self.currentSlideIndex = 0
-        self.slideList = ["blabla", "bla2"]
+        self.slideList = slidelist
         self.framecounter = 0
         self.detectMovement = True
         self.windowTitle = "presentation"
@@ -51,6 +51,13 @@ class OpenCVPresenter:
             cv2.CHAIN_APPROX_SIMPLE)
         return cnts
 
+    def getCurrentSlide(self):
+        slide = []
+        for row in self.slideList:
+            if row['index'] == self.currentSlideIndex:
+                slide.append(row)
+        return slide
+
     def renderframe(self):
         (grabbed, frame) = self.camera.read()
         if not grabbed:
@@ -62,13 +69,17 @@ class OpenCVPresenter:
                     continue
                 (x, y, w, h) = cv2.boundingRect(contour)
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
-        cv2.putText(frame, self.slideList[self.currentSlideIndex], (10, 20),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+        slide = self.getCurrentSlide()
+        for item in slide:
+            # putText(Mat& img, const string& text, Point org, int fontFace,
+            # double fontScale, Scalar color, int thickness=1, int lineType=8,
+            # bool bottomLeftOrigin=false )
+            print("content: "+item['content']+", offset: "+(item['xOffset'], item['yOffset']))
+            cv2.putText(frame, item['content'], (item['xOffset'], item['yOffset']),
+                        cv2.FONT_HERSHEY_SIMPLEX, item['fontSize'], (255, 255, 255), 2)
         cv2.imshow(self.windowTitle, frame)
 
     def run(self):
-        print("yes")
         video_width = int(self.camera.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH))
         video_height = int(self.camera.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT))
         print("cam dimensions:"+str(video_width)+"/"+str(video_height))
@@ -83,11 +94,12 @@ class OpenCVPresenter:
             if key == ord("a"):
                 self.currentSlideIndex += 1
                 if self.currentSlideIndex == len(self.slideList):
-                    print("End of presentation reached")
+                    #print("End of presentation reached")
                     self.currentSlideIndex -= 1
             if key == ord("s"):
                 self.currentSlideIndex -= 1
                 if self.currentSlideIndex < 0:
+                    #print("Start of presentation reached")
                     self.currentSlideIndex = 0
             # check for stop presentation
             # if the `q` key is pressed, break from the lop

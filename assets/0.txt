@@ -1,1 +1,4 @@
-blabla
+content;fontSize;yOffset;xOffset;
+Leben in einer überwachten Stadt;30;10;20;
+Eine Präsentation von Elias Lerch;20;100;20;
+FB VI, Master Medieninformatik;15;200;20;

@@ -1,3 +1,4 @@
-zahlen 123 und zeichen:
-$%öäüß
-blub
+content;fontSize;yOffset;xOffset;
+Leben in einer Ã¼berwachten Stadt5;30;0;0;
+Eine PrÃ¤sentation von Elias Lerch;20;100;0;
+FB VI, Master Medieninformatik;15;200;0;
